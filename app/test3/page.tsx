@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     const fetchText = async () => {
       // 這裡是抓取 web service 的程式碼
-      const response = await fetch("/api/getMcqoa");
+      const response = await fetch("/api/hello");
       const data = await response.text();
       setText(data);
     };
