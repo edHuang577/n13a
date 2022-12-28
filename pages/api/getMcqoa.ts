@@ -17,7 +17,7 @@ export default function handler(
   r2.quesId = "3";
   r2.question = "to be or not to be";
   r2.answer = "that's answer!!";
-  r2.choices = ["opt", "opt", "opt", r2.answer];
+  r2.choices = ["opt1", "opt2", "opt3", r2.answer];
   r2.shuffleOpt();
   console.log(r2);
 
