@@ -5,28 +5,24 @@ import mcqoa2 from "components/mcqoa";
 import axios from "axios";
 
 function App() {
-  const [text, setText] = useState("");
-
+  const [mcqArr, setMcqArr] = useState<mcqoa2[]>([]);
+  const fetchData = async () => {
+    const response = await axios.get("/api/getMcqoas");
+    let respData: mcqoa2[];
+    respData = response.data;
+    setMcqArr(respData);
+  };
+  if (mcqArr.length <= 0) {
+    fetchData();
+  }
   useEffect(() => {
-    const fetchText = async () => {
-      // 這裡是抓取 web service 的程式碼
-      // const response = await fetch("/api/getMcqoa");
-      const response = await axios.get("/api/getMcqoa");
-
-      let mm: mcqoa2;
-      mm = response.data;
-
-      setText(mm.sOpt[0]);
-    };
-
-    const interval = setInterval(fetchText, 2000);
-
-    return () => clearInterval(interval);
+    // const interval = setInterval(fetchText, 2000);
+    // return () => clearInterval(interval);
   }, []);
 
   return (
     <div>
-      <p className="text-xl">{text}</p>
+      <p className="text-xl">{mcqArr.length}</p>
     </div>
   );
 }
