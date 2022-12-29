@@ -1,0 +1,26 @@
+// Parent component
+import React, { useState } from 'react';
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  function handleIncrement() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+      <Child onIncrement={handleIncrement} />
+      <p>Count: {count}</p>
+    </div>
+  );
+}
+
+// Child component
+import React from 'react';
+
+function Child({ onIncrement }: { onIncrement: () => void }) {
+  return (
+    <button onClick={onIncrement}>Increment</button>
+  );
+}
