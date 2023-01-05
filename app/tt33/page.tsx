@@ -2,15 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Q2 from "components/question2";
-// interface Question {
-//   question: string;
-//   options: string[];
-// }
 
 const App: React.FC = () => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<any | null>(null);
+
   const [isFetching, setIsFetching] = useState(true);
+
+  let timerQ: NodeJS.Timeout;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,21 +27,26 @@ const App: React.FC = () => {
     setQuestions((prevQuestions) => prevQuestions.slice(1));
   };
   useEffect(() => {
-    let timer: number;
-    if (questions.length) {
-      setCurrentQuestion(questions[0]);
-      timer = window.setTimeout(() => {
-        nextQ();
-      }, 2000);
-    } else {
-      setCurrentQuestion(null);
+    // setIsFetching(false);
+    if (isFetching) {
+      if (questions.length) {
+        setCurrentQuestion(questions[0]);
+
+        timerQ = setTimeout(() => {
+          nextQ();
+          // setIsFetching(true);
+        }, 1000);
+      } else {
+        setCurrentQuestion(null);
+      }
     }
-    return () => window.clearTimeout(timer);
+    return () => clearTimeout(timerQ);
   }, [questions]);
 
   const handleStop = () => {
-    setQuestions([]);
+    // setQuestions([]);
     setIsFetching(false);
+    clearTimeout(timerQ);
   };
   const handleStart = () => {
     setIsFetching(true);
@@ -58,8 +62,8 @@ const App: React.FC = () => {
           options={currentQuestion.sOpt}
         />
       )}
-      <button onClick={handleStop}>Stop</button>{" "}
-      <button onClick={handleStart}>Start</button>
+      <button onClick={handleStop}>Stop</button>
+      || <button onClick={handleStart}>Start</button>
     </div>
   );
 };
