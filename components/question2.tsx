@@ -9,6 +9,17 @@ const Question: React.FC<Props> = ({ question, options }) => {
   const [answer, setAnswer] = useState(""); // Declare a state variable to hold the answer
   const inputRef = useRef<HTMLInputElement>(null); // Declare a ref to the input element
 
+  // Function to send the answer to the web service
+  async function sendAnswer(answer: string) {
+    const response = await fetch("/api/answer", {
+      method: "POST",
+      body: JSON.stringify({ answer }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  }
+
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     setAnswer(value); // Update the answer when the input value changes
@@ -35,20 +46,10 @@ const Question: React.FC<Props> = ({ question, options }) => {
     return () => clearTimeout(timeout); // Clean up the timeout when the component unmounts
   }, [answer]);
 
-  // Function to send the answer to the web service
-  async function sendAnswer(answer: string) {
-    const response = await fetch("/api/answer", {
-      method: "POST",
-      body: JSON.stringify({ answer }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <div>Question: {question}</div>
+      <hr />
       <div>Option 1: {options[0]}</div>
       <div>Option 2: {options[1]}</div>
       <div>Option 3: {options[2]}</div>
