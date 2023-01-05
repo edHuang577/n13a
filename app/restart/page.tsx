@@ -11,18 +11,17 @@ const App: React.FC = () => {
       setCounter(counter + 1);
       timerRunning = false;
       // setRunning(false);
-    }, 1000);
+    }, 300);
   };
 
   useEffect(() => {
     if (timerRunning) {
       // cancel the previous timer
-      clearTimeout(timer);
+      // clearTimeout(timer);
     } else {
       timerRunning = true;
-      // setRunning(true);
       timerinit();
-      // return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
     }
   }, [counter]);
 
@@ -34,7 +33,7 @@ const App: React.FC = () => {
 
   function startTimer() {
     timerRunning = true;
-    // setRunning(true);
+
     timerinit();
   }
 
