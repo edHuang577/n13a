@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 
 const App: React.FC = () => {
   const [counter, setCounter] = useState(0);
+  const [questions, setQuestions] = useState<any[]>([]);
+
   const timerRef = useRef<NodeJS.Timeout>();
   const timerSwitch = useRef<boolean>(false);
 
@@ -12,6 +14,18 @@ const App: React.FC = () => {
       // setRunning(false);
     }, 300);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/getMcqoas");
+      const data = await response.json();
+      setQuestions(data);
+    };
+
+    if (questions.length === 0 && timerSwitch) {
+      fetchData();
+    }
+  }, [questions, timerSwitch]);
 
   useEffect(() => {
     if (timerSwitch.current) {
@@ -34,7 +48,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      Counter: {counter}
+      Counter: {questions.length}
       <br />
       <button onClick={stopTimer}>Stop Timer</button> <br />
       <button onClick={startTimer}>Start Timer</button>
